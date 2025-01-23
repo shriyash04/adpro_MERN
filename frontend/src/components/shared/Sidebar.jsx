@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router'
+import { Link } from 'react-router'
 
 function Sidebar() {
     return (
@@ -15,8 +15,9 @@ function Sidebar() {
                         </Link>
                     </li>
 
+
                     <li class="nav-item">
-                        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse">
                             <i class="bi bi-menu-button-wide"></i><span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
                         </a>
                         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -51,6 +52,18 @@ function Sidebar() {
                                 </Link>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <Link to={"/user/InvoicesList"} class="nav-link ">
+                            <i class="bi bi-grid"></i>
+                            <span>Invoices</span>
+                        </Link>
+                    </li>
+                    <li class="nav-item">
+                        <Link to={"/user/P-media/ro-list"} class="nav-link ">
+                            <i class="bi bi-grid"></i>
+                            <span>P-Media</span>
+                        </Link>
                     </li>
                 </ul>
 

@@ -1,26 +1,58 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 function Login() {
-  // const navigate = useNavigate()
-  // const [username, setUsername] = useState("")
-  // const [password, setPassword] = useState("")
+  let apiUrl = process.env.REACT_APP_BASE_URL;
 
-  // const handleLogin = (e) => {
-  //   const { name, value } = e.target;
-  //   if (name === "username") setUsername(value);
-  //   if (name === "password") setPassword(value);
-  // }
+  const navigate = useNavigate();
+  let [errorMessage, setErrorMessage] = useState("");
+  let [data, setData] = useState({username:"", password:""});
+  let [dataError, setDataError] = useState({username:"", password:""});
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (username === "admin" && password === "admin") {
-  //     navigate('/Landing');
-  //     alert("Login successful!");
+  let handleChange = (e) => {
+    setData({...data, [e.target.id]: e.target.value});
+    console.log(data);
+    
+    setDataError({...dataError, [e.target.id]: ""});
+  }
 
-  //   } else {
-  //     alert("Invalid credentials!");
-  //   }
-  // }
+  let handleLogin = (e) => {
+    e.preventDefault();
+    let validated = true;
+    let dataErrors = {
+      username: "",
+      password: "",
+    };
+    if (data.username.trim() === "") {
+      dataErrors.username = "Please enter username";
+      validated = false;
+    }
+    if (data.password.trim() === "") {
+      dataErrors.password = "Please enter password";
+      validated = false;
+    }
+    setDataError({ ...dataErrors });
+    if(validated){
+      axios
+          .post(apiUrl + "authentication/login", data)
+          .then((res) => {            
+         
+            if (res.data.status === "success") {
+              console.log("User name:", res.data.data.name);
+              localStorage.setItem("usertype", "admin");
+              localStorage.setItem("id", res.data.data.id);
+              localStorage.setItem("name", res.data.data.name);
+              localStorage.setItem("token", res.data.data.token);
+              navigate('/user');
+            } else {
+              setErrorMessage(res.data.data);
+            }
+          })
+          .catch((ex) => {
+            console.log(ex);
+          });
+    }
+  }
 
   return (
     <main>
@@ -42,29 +74,27 @@ function Login() {
 
                     <div class="pt-4 pb-2">
                       <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                      <p class="text-center small">Enter your username & password to login</p>
+                      <p class="text-center text-danger small">{ errorMessage }</p>
                     </div>
 
-                    <form  class="row g-3 needs-validation">
+                    <div  class="row g-3 needs-validation">
 
                       <div class="col-12">
-                        <label for="yourUsername" class="form-label">Username</label>
+                        <label class="form-label">Username*<span className="small text-danger">{dataError.username}</span></label>
                         <div class="input-group has-validation">
                           <span class="input-group-text" id="inputGroupPrepend">@</span>
-                          <input type="text" name="username" class="form-control" id="yourUsername" required />
-                          <div class="invalid-feedback">Please enter your username.</div>
+                          <input type="text" class="form-control" id="username" onChange={(e)=>{ handleChange(e) }} />
                         </div>
                       </div>
 
                       <div class="col-12">
-                        <label for="yourPassword" class="form-label">Password</label>
-                        <input type="password" handleLogin name="password" class="form-control" id="yourPassword" required />
-                        <div class="invalid-feedback">Please enter your password!</div>
+                        <label class="form-label">Password*<span className="small text-danger">{dataError.password}</span></label>
+                        <input type="password" class="form-control" id="password"  onChange={(e)=>{ handleChange(e) }} />
                       </div>
                       <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit">Login</button>
+                        <button class="btn btn-primary w-100" onClick={(e)=>{ handleLogin(e) }}>Login</button>
                       </div>
-                    </form>
+                    </div>
                   </div>
                   </div>
                 

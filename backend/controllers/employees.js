@@ -1,5 +1,6 @@
 let express = require('express');
 const Employee = require('../models/Employee');
+// const authenticateToken = require("./authMiddleware");
 
 let router = express.Router();
 
@@ -11,6 +12,17 @@ router.get("/", (req, res)=>{
         res.json({status:"failed", data:err});
     });
 });
+
+// router.get("/", authenticateToken, (req, res) => {
+//     let object = new Employee();
+//     object.list()
+//         .then((result) => {
+//             res.json({ status: "success", data: result });
+//         })
+//         .catch((err) => {
+//             res.json({ status: "failed", data: err });
+//         });
+// });
 
 router.get("/:id", (req, res)=>{
     let object = new Employee();

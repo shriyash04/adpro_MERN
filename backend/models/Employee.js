@@ -1,4 +1,8 @@
 const DBClass = require("./DBClass");
+const jwt = require('jsonwebtoken');
+
+
+const SECRET_KEY = "Shriyash@123"; // Replace with a secure key or use process.env.SECRET_KEY
 
 class Employee {
   constructor() {
@@ -83,6 +87,62 @@ class Employee {
         });
     });
   };
-}
 
-module.exports = Employee;
+  login = () => {
+    return new Promise((resolve, reject) => {
+      let sql = "SELECT * FROM employees WHERE username = '" + this.username + "' AND password = '" + this.password + "'";
+      this.db
+        .query(sql)
+        .then((result) => {
+            if(result.length > 0)
+                resolve(result[0]);
+            else
+            reject("Invalid username or password");
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  };
+}
+  module.exports = Employee;
+
+//   login = () => {
+//     return new Promise((resolve, reject) => {
+//         let sql = "SELECT * FROM employees WHERE username = '" + this.username + "' AND password = '" + this.password + "'";
+//         this.db
+//             .query(sql)
+//             .then((result) => {
+//                 if (result.length > 0) {
+//                     const user = result[0];
+
+//                     // Generate a JWT token
+//                     const token = jwt.sign(
+//                         { id: user.id, username: user.username }, // Payload with user data
+//                         SECRET_KEY, // Secret key
+//                         { expiresIn: '1h' } // Token expires in 1 hour
+//                     );
+
+//                     // Resolve with the token and user data
+//                     resolve({
+//                         user: user,
+//                         token: token
+//                     });
+//                 } else {
+//                     reject("Invalid username or password");
+//                 }
+//             })
+//             .catch((err) => {
+//                 reject(err);
+//             });
+//     });
+// };
+
+
+
+// }
+
+// module.exports = Employee;
+
+
+

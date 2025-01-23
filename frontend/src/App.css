@@ -36,3 +36,35 @@
     transform: rotate(360deg);
   }
 }
+/* Popup Animation */
+.popup {
+  position: absolute;
+  background-color: #28a745; /* Green background for visibility */
+  color: #fff; /* White text color */
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 1s forwards; /* Smooth fade in and out */
+  z-index: 1000;
+}
+
+/* Fade In and Out Animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}

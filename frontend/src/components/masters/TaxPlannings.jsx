@@ -93,15 +93,26 @@ const TaxPlannings = () => {
     }
     if (data.cgst.trim() === "") {
       dataErrors.cgst = "Please enter CGST";
-      validated = false;
-    }
+      validated = false; }
+      else if (parseFloat(data.cgst) <= 0 || parseFloat(data.cgst) > 100) {
+        dataErrors.cgst = "CGST must be between 0.1 and 100";
+        validated = false;
+      }
+   
     if (data.sgst.trim() === "") {
       dataErrors.sgst = "Please enter SGST";
-      validated = false;
-    }
+      validated = false; }
+    else if (parseFloat(data.sgst) <= 0 || parseFloat(data.sgst) > 100) {
+        dataErrors.sgst = "CGST must be between 0.1 and 100";
+        validated = false;
+      }
+   
     if (data.igst.trim() === "") {
       dataErrors.igst = "Please enter IGST";
-      validated = false;
+      validated = false; }
+    else if (parseFloat(data.igst) <= 0.1 || parseFloat(data.igst) > 100) {
+        dataErrors.igst = "CGST must be between 0.1 and 100";
+        validated = false;
     }
     setDataError({ ...dataErrors });
     if (validated) {
@@ -199,14 +210,17 @@ const TaxPlannings = () => {
                       <div class="col-lg-4">
                         <label class="form-label">CGST*<span class="small text-danger">{dataError.cgst}</span></label>
                         <input type="text" class="form-control" id="cgst" value={data.cgst} onChange={(e)=>{ handleChange(e); }}/>
+                        
                       </div>
                       <div class="col-lg-4">
                         <label class="form-label">SGST*<span class="small text-danger">{dataError.sgst}</span></label>
                         <input type="text" class="form-control" id="sgst" value={data.sgst} onChange={(e)=>{ handleChange(e); }}/>
+                        
                       </div>
                       <div class="col-lg-4">
                         <label class="form-label">IGST*<span class="small text-danger">{dataError.igst}</span></label>
                         <input type="text" class="form-control" id="igst" value={data.igst} onChange={(e)=>{ handleChange(e); }}/>
+                        
                       </div>
                       <div class="col-lg-12">
                         <button class="btn btn-primary" onClick={(e)=>{ save(e) }}>Save</button>

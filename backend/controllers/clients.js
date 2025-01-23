@@ -29,6 +29,7 @@ router.post("/", (req, res) => {
     object.address = req.body.address;
     object.contact = req.body.contact;
     object.gstcode = req.body.gstcode;
+    
     object.save().then((result) => {
         res.json({ status: "success", data: result });
     }).catch((err) => {
